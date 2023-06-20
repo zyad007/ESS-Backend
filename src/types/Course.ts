@@ -4,7 +4,8 @@ type CourseType = {
     description?: String,
     no_participants?: Number,
     teacher_id?:Number,
-    code?:String
+    code?:String,
+    category?:String
 }
 
 export default CourseType;

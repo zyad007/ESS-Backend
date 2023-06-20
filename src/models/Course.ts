@@ -9,6 +9,7 @@ class Course {
     no_participants: number;
     teacher_id: Number;
     code: String;
+    category: String;
 
     constructor(course: CourseType) {
         this.id = course.id as Number;
@@ -17,6 +18,7 @@ class Course {
         this.no_participants = course.no_participants as number;
         this.teacher_id = course.teacher_id as Number;
         this.code = course.code as String;
+        this.category = course.category as String;
     }
 
     //CRUD
@@ -66,8 +68,8 @@ class Course {
             }
         }
 
-        const {rows} = await pool.query('INSERT INTO course (name,description,no_participants,teacher_id,code) VALUES ($1,$2,$3,$4,$5) RETURNING *', 
-        [course.name,course.description,0,course.teacher_id,code]);
+        const {rows} = await pool.query('INSERT INTO course (name,description,no_participants,teacher_id,code,category) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *', 
+        [course.name,course.description,0,course.teacher_id,code,course.category]);
         
         const courseDb = rows[0];
 
@@ -79,6 +81,20 @@ class Course {
         [code]);
 
         return rows[0];
+    }
+
+    static async findByCategory(category:string): Promise<Course[]> {
+        const courses: Course[] = [];
+
+        const {rows} = await pool.query('SELECT * FROM course WHERE category = $1 LIMIT 5',
+        [category]);
+
+        rows.forEach(row => {
+            const course: CourseType = row;
+            courses.push(new Course(course));
+        })
+        
+        return courses;
     }
 
     async save(): Promise<void> {
@@ -103,6 +119,8 @@ class Course {
 
         return rows
     }
+
+
 
     toJSON() {
         return {

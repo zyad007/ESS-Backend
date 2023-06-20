@@ -75,6 +75,18 @@ CourseRouter.get('/course/:id', async (req:Request, res:Response) => {
     }
 })
 
+CourseRouter.get('/courses/category', async (req:Request, res:Response) => {
+    try {
+        const courses = await Course.findByCategory(req.body.category);
+
+        return res.send({
+            courses
+        })
+    }catch(err:any) {
+        res.status(500).send({error: err.message});
+    }
+})
+
 //Relation User
 CourseRouter.post('/course/managed', async (req:Request, res:Response) => {
     try {
@@ -85,7 +97,6 @@ CourseRouter.post('/course/managed', async (req:Request, res:Response) => {
         res.status(500).send({error: err.message})
     }
 })
-
 
 CourseRouter.post('/course/assigned', async (req:Request, res:Response) => {
     try {
@@ -110,6 +121,33 @@ CourseRouter.post('/course/join', async (req:Request, res:Response) => {
         const code = req.body.code;
 
         const course = await Course.findByCode(code);
+
+        if(!course) return res.status(400).send({error: 'Course not found'})
+
+        if(course.teacher_id === req.body.user.id) return res.status(400).send({error: "You can't join as student in your course"})
+
+        const user_course = await User_Course.findByUserIdAndCourseId(course.id as number, req.body.user.id);
+
+        if(user_course) return res.status(400).send({error: "You already joined to this course"});
+
+        await User_Course.save({
+            user_id: req.body.user.id,
+            course_id: course.id
+        });
+
+        course.no_participants += 1;
+
+        res.send(course);
+    }catch(err:any) {
+        res.status(500).send({error: err.message});
+    }
+})
+
+CourseRouter.post('/course/join-by-id', async (req:Request, res:Response) => {
+    try {
+        const id = req.body.id;
+
+        const course = await Course.find(Number(id));
 
         if(!course) return res.status(400).send({error: 'Course not found'})
 

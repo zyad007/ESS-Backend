@@ -13,7 +13,7 @@ UserRouter.post('/signup', async (req: Request, res: Response) => {
         if(await User.find(req.body.email)) return res.status(400).send({error: 'Email already in use'})
 
         const user = await User.save(req.body as UserType);
-        
+
         const token = await user.generateJWT();
 
         res.send({user, token});
