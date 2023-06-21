@@ -138,7 +138,7 @@ CourseRouter.post('/course/join', async (req:Request, res:Response) => {
             course_id: course.id
         });
 
-        course.no_participants += 1;
+        // course.no_participants += 1;
 
         res.send(course);
     }catch(err:any) {
@@ -165,7 +165,7 @@ CourseRouter.post('/course/join-by-id', async (req:Request, res:Response) => {
             course_id: course.id
         });
 
-        course.no_participants += 1;
+        // course.no_participants += 1;
 
         res.send(course);
     }catch(err:any) {
