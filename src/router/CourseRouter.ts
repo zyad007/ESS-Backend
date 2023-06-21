@@ -77,11 +77,10 @@ CourseRouter.get('/course/:id', async (req:Request, res:Response) => {
     }
 })
 
-CourseRouter.post('/courses/category', async (req:Request, res:Response) => {
+CourseRouter.post('/course/category', async (req:Request, res:Response) => {
     try {
         const courses = await Course.findByCategory(req.body.category);
-
-        const tempCourses = courses.filter(courses => courses.teacher_id != req.body.user.id);
+        const tempCourses = courses.filter(courses => courses.teacher_id !== req.body.user.id);
 
         return res.send({
             tempCourses
