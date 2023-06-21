@@ -75,7 +75,7 @@ CourseRouter.get('/course/:id', async (req:Request, res:Response) => {
     }
 })
 
-CourseRouter.get('/courses/category', async (req:Request, res:Response) => {
+CourseRouter.post('/courses/category', async (req:Request, res:Response) => {
     try {
         const courses = await Course.findByCategory(req.body.category);
 

@@ -19,7 +19,9 @@ CREATE TABLE course (
     id SERIAL PRIMARY KEY NOT NULL,
     name VARCHAR(50),
     description VARCHAR(255),
-    no_participants INT
+    no_participants INT,
+	category VARCHAR(25),
+	code VARCHAR(8)
 );
 
 -- Many To Many joint table between the Course and User
