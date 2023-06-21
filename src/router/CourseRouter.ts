@@ -15,7 +15,9 @@ CourseRouter.post('/course', async (req:Request, res:Response) => {
         const course = await Course.save({
             name: req.body.name,
             description: req.body.description,
-            teacher_id: req.body.user.id
+            teacher_id: req.body.user.id,
+            category: req.body.category,
+            img: req.body.img
         } as CourseType);
 
         return res.send({course})

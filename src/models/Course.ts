@@ -10,6 +10,7 @@ class Course {
     teacher_id: Number;
     code: String;
     category: String;
+    img: String;
 
     constructor(course: CourseType) {
         this.id = course.id as Number;
@@ -19,6 +20,7 @@ class Course {
         this.teacher_id = course.teacher_id as Number;
         this.code = course.code as String;
         this.category = course.category as String;
+        this.img = course.img as String;
     }
 
     //CRUD
@@ -120,8 +122,6 @@ class Course {
         return rows
     }
 
-
-
     toJSON() {
         return {
             id: this.id,
@@ -129,7 +129,8 @@ class Course {
             description: this.description,
             no_participants:this.no_participants,
             teacher_id:this.teacher_id,
-            code:this.code
+            code:this.code,
+            category:this.category
         }
     }
 
