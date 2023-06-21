@@ -81,8 +81,10 @@ CourseRouter.post('/courses/category', async (req:Request, res:Response) => {
     try {
         const courses = await Course.findByCategory(req.body.category);
 
+        const tempCourses = courses.filter(courses => courses.teacher_id != req.body.user.id);
+
         return res.send({
-            courses
+            tempCourses
         })
     }catch(err:any) {
         res.status(500).send({error: err.message});
