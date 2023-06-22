@@ -1,3 +1,5 @@
+import UserType from "../types/User";
+
 export function isValidName(name:string):boolean {
 
     if(name.length === 0) {    //Empty Name
@@ -50,4 +52,27 @@ export function isValidPassword(password:string):boolean {
     }else {
         return true;
     }
+}
+
+export function searchUser(search:string, sort:string, users:UserType[]):UserType[] {
+    const tempUsers: UserType[] = [];
+    
+    for(let i=0; i<users.length; i++) {
+        if(users[i].name?.includes(search) || users[i].email?.includes(search))
+            tempUsers.push(users[i])
+    }
+
+    if(sort === 'id') {
+        return tempUsers.sort((a, b) => (Number(a.id) > Number(b.id)) ? 1 : -1 );
+    }
+
+    if(sort === 'name') {
+        return tempUsers.sort((a, b) => (String(a.name) > String(b.name)) ? 1 : -1 );
+    }
+
+    if(sort === 'email') {
+        return tempUsers.sort((a, b) => (String(a.email) > String(b.email)) ? 1 : -1 );
+    }
+
+    return tempUsers;
 }

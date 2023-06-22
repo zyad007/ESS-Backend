@@ -81,7 +81,7 @@ test('Join Course with code', async () => {
     expect(res4).toBe("You can't join as student in your course");
 })
 
-test('Join Course with id', async () => {
+test('Assign to Course with id', async () => {
     const res1 = await Course.joinByIdNew(1, 3);
     expect(res1).toBe('Joined');
 
@@ -119,5 +119,5 @@ afterAll(async () => {
     await pool.query('DELETE FROM "user" WHERE id = 1 OR id = 2 OR id = 3 OR id = 4')
 
     //Course
-    await pool.query('DELETE FROM course WHERE id = 1 OR id = 2')
+    await pool.query('DELETE FROM course WHERE id = 1 OR id = 2 OR id =5')
 })

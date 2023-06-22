@@ -5,8 +5,8 @@ import initTable from './init';
 beforeAll(async () => {
     // await initTable();
     //INIT
-pool.query('INSERT INTO "user" (email,password,name,id) VALUES ($1,$2,$3,$4)'
-,['zyad.007@gmail.com', '$2b$08$oWgHYLUSkHwMGgmBdZIQWe6ImNDsPXkhfTkwJhpXzJMXSU76Xj28a', 'zyad sallem', 1])
+    await pool.query('INSERT INTO "user" (email,password,name,id) VALUES ($1,$2,$3,$4)'
+    ,['zyad.007@gmail.com', '$2b$08$oWgHYLUSkHwMGgmBdZIQWe6ImNDsPXkhfTkwJhpXzJMXSU76Xj28a', 'zyad sallem', 1])
 })
 
 //Find User By Id
@@ -33,7 +33,7 @@ test('Find User By Id', async () => {
 test('Create new User',async () => {
 
     const user1 = {
-        email: 'anas@mail.com',
+        email: 'adham@mail.com',
         password: 'anas1234',
         name: 'anas hesham'
     }
@@ -48,7 +48,7 @@ test('Create new User',async () => {
     expect(await User.newSave(user2)).toBe('Email not valid');
 
     const user3 = {
-        email: 'adham@mail.com',
+        email: 'anas@mail.com',
         password: '123',
         name: 'adham'
     }
@@ -60,7 +60,7 @@ test('Create new User',async () => {
 test('Check user password with hashing',async () => {
     const user = await User.find('adham@mail.com');
 
-    const res1 = await user.checkPassword('adham12312');
+    const res1 = await user.checkPassword('anas1234');
     expect(res1).toBe(true);
 
     const res2 = await user.checkPassword('1233111');
@@ -83,4 +83,4 @@ test('Delete User By Email', async () => {
 
 afterAll(() => {
     return pool.query('DELETE FROM "user" WHERE id = 1')
-  });
+});

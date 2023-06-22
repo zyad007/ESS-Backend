@@ -21,7 +21,9 @@ CREATE TABLE course (
     description VARCHAR(255),
     no_participants INT,
 	category VARCHAR(25),
-	code VARCHAR(8)
+	code VARCHAR(8),
+	teacher_id INT,
+	CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES "user"(id) ON DELETE CASCADE
 );
 
 -- Many To Many joint table between the Course and User

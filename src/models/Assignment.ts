@@ -33,10 +33,9 @@ class Assignment {
 
         if(!await Course.find(asssignment.course_id as number)) return 'Course not found';
 
-        const {rows} = await pool.query('INSERT INTO assignment (title,description,file_url,course_id) VALUES ($1,$2,$3) RETURNING *', 
+        await pool.query('INSERT INTO assignment (title,description,file_url,course_id) VALUES ($1,$2,$3,$4)', 
         [asssignment.title, asssignment.description, asssignment.file_url, asssignment.course_id ]);
         
-        const userCourseDb = rows[0];
 
         return 'Created'
     }
