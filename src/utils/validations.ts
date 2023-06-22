@@ -1,4 +1,6 @@
 import UserType from "../types/User";
+import validator from "validator";
+import bcrypt from "bcrypt";
 
 export function isValidName(name:string):boolean {
 
@@ -75,4 +77,26 @@ export function searchUser(search:string, sort:string, users:UserType[]):UserTyp
     }
 
     return tempUsers;
+}
+
+export async function validateUser(user:UserType, confirmPassword:string):Promise<Boolean> {
+    if(!validator.isEmail(user.email as string)) {
+        return false;
+    }
+
+    if(Number(user.age) < 21) {
+        return false;
+    }
+
+    if(Number(user.password?.length) < 8) {
+        return false
+    }
+
+    const passwordHash: string = await bcrypt.hash(confirmPassword, 8);
+
+    if(passwordHash !== user.password) {
+        return false;
+    }
+    
+    return true;
 }
