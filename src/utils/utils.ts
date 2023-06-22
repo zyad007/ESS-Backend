@@ -1,4 +1,6 @@
-const makeid = (length:number):string => {
+import Course from "../models/Course";
+
+export const makeid = (length:number):string => {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
@@ -9,7 +11,28 @@ const makeid = (length:number):string => {
     }
     return result;
 }
-
-export default {
-    makeid
-}  
+export const calculateGrade = (grade:number, maxGrade:number):string => {
+  const percent = (grade/maxGrade) * 100;
+  if(percent < 50) {
+    return "Failed"
+  }else if (percent < 65 && percent > 50) {
+    return "Well"
+  }else if (percent < 75 && percent > 65) {
+    return "Good"
+  }else if (percent < 85 && percent > 75) {
+    return "Very Good"
+  }else {
+    return "Excellent"
+  }
+}
+export const findMaximumGrade = (grades:number[]):number => {
+  if(grades.length === 0) {
+    return -1;
+  }
+  let max = grades[0]
+  for(let i=1;i<grades.length;i++) {
+    if(max < grades[i])
+      max = grades[i]
+  }
+  return max
+}

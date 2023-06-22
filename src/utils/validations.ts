@@ -22,6 +22,7 @@ export function isValidAge(age:number):boolean {
         return true;    //Valid Age
     }
 }
+// white box
 export function isValidPhone(phone:string):boolean {
     const regExp: RegExp = /[a-zA-z]/g;
     if(phone.length === 0){
@@ -30,7 +31,7 @@ export function isValidPhone(phone:string):boolean {
         return false;
     }else if(phone[0] !== '0' || phone[1] !== '1') {
         return false;
-    }else if(phone.length !== 11){
+    }else if(phone.length !== 11 && phone.length !== 10){
         return false;
     }else {
         return true;
@@ -47,16 +48,21 @@ export function isValidEmail(email:string):boolean {
     }
 }
 export function isValidPassword(password:string):boolean {
+    const regExp1: RegExp = /[A-Z]/
+    const regExp2: RegExp = /[a-z]/
+    const regExp3: RegExp = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$]/
     if(password.length === 0) {
         return false;
     }else if(password.length < 8 || password.length > 20) {
+        return false;
+    }else if(!regExp1.test(password) || !regExp2.test(password) || !regExp3.test(password)) { 
         return false;
     }else {
         return true;
     }
 }
 
-export function searchUser(search:string, sort:string, users:UserType[]):UserType[] {
+export function filter(search:string, sort:string, users:UserType[]):UserType[] {
     const tempUsers: UserType[] = [];
     
     for(let i=0; i<users.length; i++) {
@@ -77,26 +83,4 @@ export function searchUser(search:string, sort:string, users:UserType[]):UserTyp
     }
 
     return tempUsers;
-}
-
-export async function validateUser(user:UserType, confirmPassword:string):Promise<Boolean> {
-    if(!validator.isEmail(user.email as string)) {
-        return false;
-    }
-
-    if(Number(user.age) < 21) {
-        return false;
-    }
-
-    if(Number(user.password?.length) < 8) {
-        return false
-    }
-
-    const passwordHash: string = await bcrypt.hash(confirmPassword, 8);
-
-    if(passwordHash !== user.password) {
-        return false;
-    }
-    
-    return true;
 }
