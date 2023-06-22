@@ -60,7 +60,7 @@ export function isValidPassword(password:string):boolean {
     }
 }
 
-export function searchUser(search:string, sort:string, users:UserType[]):UserType[] {
+export function filter(search:string, sort:string, users:UserType[]):UserType[] {
     const tempUsers: UserType[] = [];
     
     for(let i=0; i<users.length; i++) {
@@ -82,3 +82,4 @@ export function searchUser(search:string, sort:string, users:UserType[]):UserTyp
 
     return tempUsers;
 }
+
