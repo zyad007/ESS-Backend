@@ -1,4 +1,8 @@
 import Course from "../models/Course";
+import validator from "validator";
+import bcrypt from "bcrypt";
+import UserType from "../types/User";
+import { isValidEmail, isValidPassword } from "./validations";
 
 export const makeid = (length:number):string => {
     let result = '';
@@ -36,3 +40,14 @@ export const findMaximumGrade = (grades:number[]):number => {
   }
   return max
 }
+export async function validateUser(user:UserType):Promise<Boolean> {
+  if(!isValidEmail(user.email as string)) {
+      return false;
+  }
+
+  if(!isValidPassword(user.password as string)) {
+    return false;
+  }
+  return true;
+}
+
