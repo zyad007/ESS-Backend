@@ -68,6 +68,26 @@ class User {
         return userDb;
     }
 
+    static async newSave(user: UserType): Promise<String> {
+        if(!validator.isEmail(user.email as string)) {
+            return 'Email not valid';
+        }
+
+        if(Number(user.password?.length) < 8) {
+            return 'Password is too short'
+        }
+
+        const passwordHash: string = await bcrypt.hash(user.password as string, 8);
+
+        const {rows} = await pool.query('INSERT INTO "user" (email,password,name) VALUES ($1,$2,$3) RETURNING *', 
+        [user.email,passwordHash,user.name]);
+        
+        const userModel: UserType = rows[0]; 
+        const userDb: User = new User(userModel);
+
+        return 'Created';
+    }
+
     async save(): Promise<void> {
         //TODO Add foregin keys
         await pool.query('UPDATE "user" SET name = $1 WHERE id = $2'
@@ -76,6 +96,16 @@ class User {
 
     static async delete(id: number): Promise<void> {
         await pool.query('DELETE FROM "user" WHERE id = $1', [id]);
+    }
+
+    static async newDelete(email: string): Promise<String> {
+        const user = await User.find(email);
+
+        if(user == null) return 'No User With this email';
+
+        await pool.query('DELETE FROM "user" WHERE email = $1', [email]);
+
+        return 'Deleted';
     }
 
     async delete(): Promise<void> {
