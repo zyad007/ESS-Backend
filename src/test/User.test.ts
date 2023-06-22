@@ -33,16 +33,16 @@ test('Find User By Id', async () => {
 test('Create new User',async () => {
 
     const user1 = {
-        email: 'adham@mail.com',
-        password: 'adham12312',
-        name: 'adham'
+        email: 'anas@mail.com',
+        password: 'anas1234',
+        name: 'anas hesham'
     }
     expect(await User.newSave(user1)).toBe('Created');
 
 
     const user2 = {
-        email: 'bichooo4',
-        password: 'bic1112312',
+        email: 'bichoy@com',
+        password: '010271042',
         name: 'bichoy'
     }
     expect(await User.newSave(user2)).toBe('Email not valid');
