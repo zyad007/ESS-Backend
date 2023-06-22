@@ -70,6 +70,22 @@ class User_Course {
         return userCourses;
     }
 
+    static async findAllByCourseIdNew(courseId: number): Promise<User_Course[] | string> {
+        const userCourses :User_Course[] = [];
+        
+        const {rows} = await pool.query('SELECT * FROM user_course WHERE course_id = $1'
+        ,[courseId]);
+
+        rows.forEach(row => {
+            const userCourseDb: User_CoureType = row;
+            userCourses.push(new User_Course(userCourseDb));
+        });
+
+        if(rows.length == 0) return 'No Students in this course'
+
+        return userCourses;
+    }
+
     static async findAllByUserId(courseId: number): Promise<User_Course[]> {
         const userCourses :User_Course[] = [];
         

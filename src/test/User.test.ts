@@ -1,9 +1,11 @@
 import pool from '../db/postgres';
 import User from '../models/User';
+import initTable from './init';
 
-beforeAll(() => {
+beforeAll(async () => {
+    // await initTable();
     //INIT
-return pool.query('INSERT INTO "user" (email,password,name,id) VALUES ($1,$2,$3,$4)'
+pool.query('INSERT INTO "user" (email,password,name,id) VALUES ($1,$2,$3,$4)'
 ,['zyad.007@gmail.com', '$2b$08$oWgHYLUSkHwMGgmBdZIQWe6ImNDsPXkhfTkwJhpXzJMXSU76Xj28a', 'zyad sallem', 1])
 })
 

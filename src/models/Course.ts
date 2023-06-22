@@ -203,7 +203,7 @@ class Course {
             courses.push(new Course(course));
         })
 
-        if(rows.length == 0) return 'Catagory not founded'
+        if(rows.length == 0) return 'Catagory not found'
         
         return 'Founded';
     }

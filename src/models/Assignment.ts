@@ -1,5 +1,6 @@
 import pool from "../db/postgres";
 import AssignmentType from "../types/Assignemnt";
+import Course from "./Course";
 
 class Assignment {
     id: Number;
@@ -24,6 +25,20 @@ class Assignment {
         const userCourseDb = rows[0];
 
         return new Assignment(userCourseDb);
+    }
+
+    static async saveNew(asssignment: AssignmentType): Promise<String> {
+
+        if(!asssignment.title) return 'Invalid Title';
+
+        if(!await Course.find(asssignment.course_id as number)) return 'Course not found';
+
+        const {rows} = await pool.query('INSERT INTO assignment (title,description,file_url,course_id) VALUES ($1,$2,$3) RETURNING *', 
+        [asssignment.title, asssignment.description, asssignment.file_url, asssignment.course_id ]);
+        
+        const userCourseDb = rows[0];
+
+        return 'Created'
     }
 
     async save(): Promise<void> {
