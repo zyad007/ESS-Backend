@@ -9,7 +9,9 @@ const makeid = (length:number):string => {
     }
     return result;
 }
-
+const calculateGrade = (Grade:number):string => {
+  return "A"
+}
 export default {
     makeid
 }  

@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 import auth from "../middleware/auth";
 import User from "../models/User";
 import UserType from "../types/User";
+import { isValidPassword } from "../utils/validations";
 
 const UserRouter = Router();
 
@@ -11,7 +12,7 @@ UserRouter.use('/user', auth);
 UserRouter.post('/signup', async (req: Request, res: Response) => {
     try {
         if(await User.find(req.body.email)) return res.status(400).send({error: 'Email already in use'})
-
+        if(!isValidPassword(req.body.email)) return res.status(400).send({error: 'Not Valid Password'})
         const user = await User.save(req.body as UserType);
 
         const token = await user.generateJWT();
